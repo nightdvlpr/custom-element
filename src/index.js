@@ -17,24 +17,59 @@ function component() {
         max-width: 600px;
         font-family: 'Redressed', cursive;
         transition: opacity 0.3s ease-in-out;
+        box-sizing: border-box;
+    }
+
+    input {
+        background-color: transparent;
+    }
+
+    a {
+       text-align: center;
+       line-height: 35px;
+       color: #fff;
+       text-decoration: none;
+       background-color: #83b735;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #464646;
+        vertical-align: middle;
+        font-weight: 400;
+        font-size: 14px;
+        margin-top: 18px;
     }
 
     input,
-    button {
+    a {
         display: block;
-        padding: 8px 0;
+        padding: 0 15px;
+        max-width: 100%;
         width: 100%;
-        margin-top: 8px;
-        background: #fff;
-        border: 1px solid #e3e3e3;
+        height: 42px;
+        border: 2px solid rgba(129,129,129,.2);
+        border-radius: 0;
+        box-shadow: none;
+        vertical-align: middle;
+        font-size: 14px;
+        transition: border-color .5s ease;
     }
     </style>
     <slot></slot><!-- slotted content appears here -->
     <p id="msg" style="color:red;"></p>
-    <input type="text" name="fullname" id="fullname" placeholder="Fullname">
-    <input type="text" name="email" id="email" placeholder="Email Or Phone">
-    <input type="text" name="code" id="code" placeholder="Code" value="">
-    <button id="btnValidate">Validate</button>
+    <label>Fullname</label>
+    <input type="text" name="fullname" id="fullname" placeholder="">
+    
+    <label>Email Or Phone</label>
+    <input type="text" name="email" id="email" placeholder="">
+
+    <label>Code</label>
+    <input type="text" name="code" id="code" placeholder="" value="">
+
+    <br/>
+    <a href="javascript:" id="btnValidate">Validate</button>
     `;
     return element;
 }
@@ -62,21 +97,21 @@ function myCustomElemnts() {
         }
 
         set msg(val) {
-            this.msg =val; 
+            this.msg = val;
             this.msgHolder.innerText = val;
         }
 
         run() {
             if (
-            this.txtEmail.value==="" ||
-            this.txtCode.value===""){
+                this.txtEmail.value === "" ||
+                this.txtCode.value === "") {
                 Swal.fire({
                     title: 'Fill the fields',
                     text: 'Please compelete the fields',
                     icon: 'error',
                     confirmButtonText: 'Ok'
-                  })
-                  return false;
+                })
+                return false;
             }
             axios.get('https://nightdvlpr.com/v1/validation', {
                     params: {
@@ -89,19 +124,19 @@ function myCustomElemnts() {
                     console.log(response);
 
                     if (response['data']['result']) {
-                    Swal.fire({
-                        title: 'Validation',
-                        text: response['data']['message'],
-                        icon: 'success',
-                        confirmButtonText: 'Cool'
-                      })
-                    }else {
+                        Swal.fire({
+                            title: 'Validation',
+                            text: response['data']['message'],
+                            icon: 'success',
+                            confirmButtonText: 'Cool'
+                        })
+                    } else {
                         Swal.fire({
                             title: 'Validation',
                             text: response['data']['message'],
                             icon: 'error',
                             confirmButtonText: 'Ok'
-                          })
+                        })
                     }
                 })
                 .catch(function (error) {
@@ -131,11 +166,11 @@ function myCustomElemnts() {
 /**
  * When DOM is ready
  */
-window.addEventListener('load', () => {
+//window.addEventListener('load', () => {
     console.log('DOM has loaded');
     document.body.appendChild(component());
     myCustomElemnts();
     // document.querySelector('#btnValidate').addEventListener('click', () => {
     //     console.log('clicked');
     // });   
-})
+//})
